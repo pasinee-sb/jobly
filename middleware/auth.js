@@ -13,29 +13,11 @@ const { UnauthorizedError } = require("../expressError");
  *
  * It's not an error if no token was provided or if the token is not valid.
  */
-
 function authenticateJWT(req, res, next) {
   try {
-    console.log(req.headers);
-    console.log(req.headers);
-    console.log(`HEADER AUTH : ${req.headers.authorization}`);
-    console.log(`HEADER AUTH : ${req.headers.authorization}`);
-
     const authHeader = req.headers && req.headers.authorization;
     if (authHeader) {
       const token = authHeader.replace(/^[Bb]earer /, "").trim();
-      console.log(`THERE IS AUTH TOKEN`);
-      console.log(`THERE IS AUTH TOKEN`);
-
-      console.log(`THERE IS AUTH TOKEN ${token}`);
-      console.log(`THERE IS AUTH SECRET KEY ${SECRET_KEY}`);
-      console.log(`THERE IS AUTH SECRET KEY ${SECRET_KEY}`);
-
-      console.log(`GIVE ME JWT VERIFY`);
-      console.log(`GIVE ME JWT VERIFY`);
-
-      console.log(jwt.verify(token, SECRET_KEY));
-
       res.locals.user = jwt.verify(token, SECRET_KEY);
     }
     return next();
@@ -43,6 +25,26 @@ function authenticateJWT(req, res, next) {
     return next();
   }
 }
+
+// function authenticateJWT(req, res, next) {
+//   try {
+//     const authHeader = req.headers && req.headers.authorization;
+//     if (authHeader) {
+//       const token = authHeader.replace(/^[Bb]earer /, "").trim();
+//       try {
+//         res.locals.user = jwt.verify(token, SECRET_KEY);
+//       } catch (err) {
+//         // Handle invalid token separately
+//         res.locals = {};
+//       }
+//     } else {
+//       res.locals = {}; // Set res.locals.user to null when no token is provided
+//     }
+//     return next();
+//   } catch (err) {
+//     return next(err);
+//   }
+// }
 
 /** Middleware to use when they must be logged in.
  *
